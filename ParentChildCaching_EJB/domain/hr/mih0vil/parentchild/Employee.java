@@ -1,10 +1,17 @@
 package hr.mih0vil.parentchild;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -29,41 +36,13 @@ public class Employee implements Serializable {
 	@Column(name="EMPLOYEE_ID")
 	private Long employeeId;
 
-	private String address;
-
-	@Column(name="CELL_NUMBER")
-	private String cellNumber;
-
-	@Column(name="COMMISSION_PCT")
-	private BigDecimal commissionPct;
-
-	private String email;
-
 	@Column(name="FIRST_NAME")
 	private String firstName;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="HIRE_DATE")
-	private Date hireDate;
-
-	@Column(name="IS_PORTAL_DATA")
-	private String isPortalData;
-
-	@Column(name="JOB_ID")
-	private String jobId;
 
 	@Column(name="LAST_NAME")
 	private String lastName;
 
-	@Column(name="PHONE_NUMBER")
-	private String phoneNumber;
-
 	private BigDecimal salary;
-
-	private String username;
-
-	@Column(name="VPN_NUMBER")
-	private String vpnNumber;
 
 	//bi-directional many-to-one association to Department
 	@ManyToOne
@@ -75,26 +54,14 @@ public class Employee implements Serializable {
 	@JoinColumn(name="MANAGER_ID")
 	private Employee manager;
 
-	//bi-directional many-to-one association to Employee
-	@OneToMany(mappedBy="manager")
-	private List<Employee> teamMembers;
-
 	public Employee() {
 	}
-	
-	@Override
-	public String toString() {
-		return "Employee [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", department=" + department + ", manager=" + manager + "]";
-	}
-
-
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hireDate == null) ? 0 : hireDate.hashCode());
+		result = prime * result + ((employeeId == null) ? 0 : employeeId.hashCode());
 		return result;
 	}
 
@@ -107,128 +74,54 @@ public class Employee implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		if (hireDate == null) {
-			if (other.hireDate != null)
+		if (employeeId == null) {
+			if (other.employeeId != null)
 				return false;
-		} else if (!hireDate.equals(other.hireDate))
+		} else if (!employeeId.equals(other.employeeId))
 			return false;
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", salary=" + salary + ", department=" + department + ", manager=" + manager + "]";
+	}
+
 	public Long getEmployeeId() {
-		return this.employeeId;
+		return employeeId;
 	}
 
 	public void setEmployeeId(Long employeeId) {
 		this.employeeId = employeeId;
 	}
 
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCellNumber() {
-		return this.cellNumber;
-	}
-
-	public void setCellNumber(String cellNumber) {
-		this.cellNumber = cellNumber;
-	}
-
-	public BigDecimal getCommissionPct() {
-		return this.commissionPct;
-	}
-
-	public void setCommissionPct(BigDecimal commissionPct) {
-		this.commissionPct = commissionPct;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getFirstName() {
-		return this.firstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public Date getHireDate() {
-		return this.hireDate;
-	}
-
-	public void setHireDate(Date hireDate) {
-		this.hireDate = hireDate;
-	}
-
-	public String getIsPortalData() {
-		return this.isPortalData;
-	}
-
-	public void setIsPortalData(String isPortalData) {
-		this.isPortalData = isPortalData;
-	}
-
-	public String getJobId() {
-		return this.jobId;
-	}
-
-	public void setJobId(String jobId) {
-		this.jobId = jobId;
-	}
-
 	public String getLastName() {
-		return this.lastName;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	public String getPhoneNumber() {
-		return this.phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
 	public BigDecimal getSalary() {
-		return this.salary;
+		return salary;
 	}
 
 	public void setSalary(BigDecimal salary) {
 		this.salary = salary;
 	}
 
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getVpnNumber() {
-		return this.vpnNumber;
-	}
-
-	public void setVpnNumber(String vpnNumber) {
-		this.vpnNumber = vpnNumber;
-	}
-
 	public Department getDepartment() {
-		return this.department;
+		return department;
 	}
 
 	public void setDepartment(Department department) {
@@ -236,19 +129,12 @@ public class Employee implements Serializable {
 	}
 
 	public Employee getManager() {
-		return this.manager;
+		return manager;
 	}
 
-	public void setManager(Employee employee) {
-		this.manager = employee;
+	public void setManager(Employee manager) {
+		this.manager = manager;
 	}
-
-	public List<Employee> getTeamMembers() {
-		return teamMembers;
-	}
-
-	public void setTeamMembers(List<Employee> teamMembers) {
-		this.teamMembers = teamMembers;
-	}	
 	
+		
 }
