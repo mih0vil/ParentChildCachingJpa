@@ -5,14 +5,9 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 
 /**
@@ -20,17 +15,16 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="EMPLOYEES")
-@NamedQuery(name="Employee.findAll", query="SELECT e FROM Employee e")
 @NamedNativeQueries({
-	@NamedNativeQuery(name="Employee.getHigherPayed", resultClass=Employee.class, query=
-			"select e.*\n" + 
-			"from EMPLOYEES e\n" + 
-			"where 1=1\n" + 
-			"and E.SALARY > 10000\n" + 
+	@NamedNativeQuery(name="EmployeeWithDeparment.getHigherPayed", resultClass=EmployeeWithDeparment.class, query=
+			"select E.EMPLOYEE_ID, E.FIRST_NAME, E.LAST_NAME, E.SALARY, D.DEPARTMENT_NAME \r\n" + 
+			"from EMPLOYEES e \r\n" + 
+			"join DEPARTMENTS d  on  E.DEPARTMENT_ID =   D.DEPARTMENT_ID \r\n" + 
+			"where 1=1 \r\n" + 
+			"and E.SALARY > 10000 \r\n" + 
 			"")
 })
-public class Employee implements Serializable {
+public class EmployeeWithDeparment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -45,17 +39,10 @@ public class Employee implements Serializable {
 
 	private BigDecimal salary;
 
-	//bi-directional many-to-one association to Department
-	@ManyToOne(fetch=FetchType.LAZY) //don't fetch immediately in order to use power of caching
-	@JoinColumn(name="DEPARTMENT_ID")
-	private Department department;
+	@Column(name="DEPARTMENT_NAME")
+	private String departmentName;
 
-	//bi-directional many-to-one association to Employee
-	@ManyToOne
-	@JoinColumn(name="MANAGER_ID")
-	private Employee manager;
-
-	public Employee() {
+	public EmployeeWithDeparment() {
 	}
 
 	@Override
@@ -74,7 +61,7 @@ public class Employee implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Employee other = (Employee) obj;
+		EmployeeWithDeparment other = (EmployeeWithDeparment) obj;
 		if (employeeId == null) {
 			if (other.employeeId != null)
 				return false;
@@ -85,8 +72,8 @@ public class Employee implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Employee [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", salary=" + salary + ", department=" + department + ", manager=" + manager + "]";
+		return "EmployeeWithDeparment [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", salary=" + salary + ", departmentName=" + departmentName + "]";
 	}
 
 	public Long getEmployeeId() {
@@ -121,21 +108,13 @@ public class Employee implements Serializable {
 		this.salary = salary;
 	}
 
-	public Department getDepartment() {
-		return department;
+	public String getDepartmentName() {
+		return departmentName;
 	}
 
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	public Employee getManager() {
-		return manager;
-	}
-
-	public void setManager(Employee manager) {
-		this.manager = manager;
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 	
-		
+
 }

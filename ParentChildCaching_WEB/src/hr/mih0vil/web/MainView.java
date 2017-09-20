@@ -10,6 +10,7 @@ import javax.inject.Named;
 import org.omnifaces.cdi.ViewScoped;
 
 import hr.mih0vil.parentchild.Employee;
+import hr.mih0vil.parentchild.EmployeeWithDeparment;
 import hr.mihovil.ejb.EmployeeService;
 
 @Named
@@ -22,11 +23,13 @@ public class MainView implements Serializable{
 	EmployeeService employeeService;
 	
 	private List<Employee> employees;
+	private List<EmployeeWithDeparment> employeesWithDeparment;
 	
 	public void test(ActionEvent event) {
 		try {
 			System.out.println("test()");
-			employees = employeeService.getEmployeesHigherPayed();
+			employees = employeeService.getEmployeesHigherPayedWithDeparments();
+			employeesWithDeparment = employeeService.getHigherPayedEmpoyeesWithDepartment();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,5 +41,13 @@ public class MainView implements Serializable{
 
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
+	}
+
+	public List<EmployeeWithDeparment> getEmployeesWithDeparment() {
+		return employeesWithDeparment;
+	}
+
+	public void setEmployeesWithDeparment(List<EmployeeWithDeparment> employeesWithDeparment) {
+		this.employeesWithDeparment = employeesWithDeparment;
 	}
 }

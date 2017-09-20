@@ -19,8 +19,12 @@ th, tr, td {
 
 <h:body>
 <h:form>
-	<p:commandButton value="test JPA query" actionListener="#{mainView.test}" update="empTable"/>
+	<p:commandButton value="Refresh tables and test JPA query" 
+		actionListener="#{mainView.test}" update="empTable empDepTable"/>
 	<p/>
+	
+	<h1>Employees</h1>
+	
 	<p:dataTable id="empTable" value="#{mainView.employees}" var="e">
 		<p:column headerText="name">
 			<h:outputText value="#{e.firstName} #{e.lastName}"/>
@@ -32,6 +36,23 @@ th, tr, td {
 			<h:outputText value="#{e.salary}"/>
 		</p:column>		
 	</p:dataTable>
+	<p/>
+	
+	<h1>Employees with departments</h1>
+	
+	<p:dataTable id="empDepTable" value="#{mainView.employeesWithDeparment}" var="e" >
+		<p:column headerText="name">
+			<h:outputText value="#{e.firstName} #{e.lastName}"/>
+		</p:column>
+		<p:column headerText="department">
+			<h:outputText value="#{e.departmentName}"/>
+		</p:column>
+		<p:column headerText="salary">
+			<h:outputText value="#{e.salary}"/>
+		</p:column>		
+	</p:dataTable>
+	<p/>
+	
 </h:form>
 </h:body>
 

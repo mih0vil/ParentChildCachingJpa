@@ -4,6 +4,7 @@
 		<jta-data-source>jdbc/hrDS</jta-data-source>
 		<class>hr.mih0vil.parentchild.Department</class>
 		<class>hr.mih0vil.parentchild.Employee</class>
+		<class>hr.mih0vil.parentchild.EmployeeWithDeparment</class>
 
       <properties>
          <property name="eclipselink.logging.level" value="FINE"/>
